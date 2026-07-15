@@ -22,6 +22,8 @@ canvas{display:block;width:100%;background:var(--bg2);border:1px solid var(--edg
 .glwrap{position:relative;margin:10px 0}
 .glwrap canvas{margin:0}#torus{width:100%;height:320px;display:block;background:#04060a;border:1px solid rgba(140,160,220,.20);border-radius:6px;margin:4px 0}
 .labels{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:hidden;font-family:var(--mono);font-size:10px}
+.missing{position:absolute;left:14px;top:14px;right:14px;max-height:calc(100% - 28px);overflow:auto;display:none;background:rgba(18,14,10,.93);border:1px solid var(--bad);border-left:4px solid var(--bad);border-radius:8px;padding:14px 18px;font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--ink2);backdrop-filter:blur(3px);z-index:6;pointer-events:auto}
+.missing.on{display:block}.missing h4{margin:0 0 6px;color:var(--bad);font-size:13px;letter-spacing:.05em;line-height:1.4}.missing b{color:var(--amber);display:block;margin-top:10px;font-size:10.5px;letter-spacing:.09em}.missing span{color:var(--ink3)}
 .lbl{position:absolute;transform:translate(-50%,-140%);white-space:nowrap;padding:1px 5px;border-radius:3px;background:rgba(20,18,16,.72);border:1px solid rgba(120,110,95,.35);letter-spacing:.04em;text-shadow:0 1px 2px #000}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:14px 0}
 .card{background:var(--card);border:1px solid var(--edge);border-left:4px solid var(--lit);border-radius:5px;padding:9px 11px;font-family:var(--mono);font-size:11.5px}
@@ -58,8 +60,9 @@ footer{margin-top:24px;font-family:var(--mono);font-size:10.5px;color:var(--ink3
 <label>corpus tokens N · 1 nanite / sphere<input id="ntok" type="range" min="40" max="1416" step="8" value="384" oninput="ntokv()"><span class="val" id="ntokvv">384</span></label>
 <button id="lblbtn" class="on" onclick="toggleLabels()">🏷 labels: on</button>
 <button id="spinbtn" class="on" onclick="toggleSpin()">↻ auto-rotate: on</button>
+<button id="m_miss" onclick="toggleMissing()">⚠ what a real brain also has</button>
 </div>
-<div class="glwrap"><canvas id="brain"></canvas><div class="labels" id="labels"></div></div>
+<div class="glwrap"><canvas id="brain"></canvas><div class="labels" id="labels"></div><div class="missing" id="missing"></div></div>
 <div class="leg">
 <i style="background:#dbc9b8"></i>L-cortex 1<i style="background:#ccb8a3"></i>L-cortex 2<i style="background:#e0c2a3"></i>R-cortex 1<i style="background:#d1b399"></i>R-cortex 2<i style="background:#fac24c"></i>CENTER CORTEX · #5 (hub)<i style="background:#c9b79f"></i>cerebellum<i style="background:#b39a82"></i>brainstem<br>
 <i style="background:#388ade"></i>sight<i style="background:#2dd4bf"></i>sound<i style="background:#5cc9a6"></i>touch<i style="background:#e6a817"></i>taste<i style="background:#ff7a6a"></i>smell &nbsp;·&nbsp; gold spokes = hemisphere → hub · teal spokes = senses → hub</div>
@@ -451,5 +454,18 @@ function expv(){EXPLODE=+document.getElementById('explode').value;document.getEl
 function ntokv(){var n=+document.getElementById('ntok').value;buildNanites(n);document.getElementById('ntokvv').textContent=NTOK;}
 function toggleLabels(){SHOWLBL=!SHOWLBL;const b=document.getElementById('lblbtn');b.textContent='🏷 labels: '+(SHOWLBL?'on':'off');b.classList.toggle('on',SHOWLBL);}
 function toggleSpin(){SPIN=!SPIN;syncBtns();}
+var MISSING=[
+ ["SCALE","~86 billion neurons · ~85 billion glia · ~100 trillion synapses — this model has ~a dozen shapes and a few hundred nanites"],
+ ["THE REAL CORTEX","4 lobes PER hemisphere (frontal · parietal · temporal · occipital) + insula + cingulate — not 2 arbitrary pieces; and named areas: primary motor, somatosensory, Broca &amp; Wernicke, V1–V5, auditory A1"],
+ ["WHITE-MATTER TRACTS","the real axonal highways — corpus callosum (L↔R), arcuate fasciculus, internal capsule, fornix, cingulum — carrying billions of fibers; this model has spokes to a made-up hub, not tracts"],
+ ["DEEP STRUCTURES","the basal ganglia (caudate · putamen · globus pallidus · substantia nigra), hypothalamus, pituitary, pineal, and the ventricles + cerebrospinal fluid"],
+ ["BRAINSTEM &amp; NERVES","the midbrain · pons · medulla in detail, the 12 cranial nerves, and the reticular activating system that sets arousal"],
+ ["THE VASCULATURE","the blood supply — the Circle of Willis, the cerebral arteries &amp; veins, ~20% of the body&rsquo;s oxygen"],
+ ["THE WIRING PATTERN ITSELF","a real brain is NOT a star — it is a recurrent SMALL-WORLD network: dense local clusters with short global paths, massively bidirectional, no single hub. The star here is a chosen figure"],
+ ["NEUROCHEMISTRY","the modulatory systems — dopamine, serotonin, acetylcholine, noradrenaline — riding over the fast GABA/glutamate synapses; none of it is a colour or a spoke"]
+];
+function toggleMissing(){var el=document.getElementById("missing");if(!el)return;
+ if(!el.innerHTML){el.innerHTML='<h4>&#9888; this is a 5-piece STAR FIGURE, not a brain — a real human brain also has:</h4>'+MISSING.map(function(m){return "<b>"+m[0]+"</b><span>"+m[1]+"</span>";}).join("")+'<div style="margin-top:12px;color:#8f8a6a">&hellip; and everything else. Naming the gap is the point: the LIT here is the graph &amp; the math, the &lsquo;brain&rsquo; is the figure. &mdash; David Lee Wise / ROOT0, with AVAN</div>';}
+ var on=el.classList.toggle("on");var b=document.getElementById("m_miss");if(b)b.classList.toggle("on",on);}
 function syncBtns(){const b=document.getElementById('spinbtn');b.textContent='↻ auto-rotate: '+(SPIN?'on':'off');b.classList.toggle('on',SPIN);}
 </script></body></html>
