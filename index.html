@@ -42,16 +42,18 @@ footer{margin-top:24px;font-family:var(--mono);font-size:10.5px;color:var(--ink3
 <header class="m"><div class="series">POSI-CORP · EPL CORTEX v6 · THE CONNECTOME — THE WHOLE STACK, WIRED IN 3D</div>
 <h1>The EPL Cortex, v6</h1>
 <p class="sub">The five prior layers were drawn on a flat canvas with a hand-rolled projection. v6 lifts the whole assembly into real WebGL: a procedurally-grown brain — folded cortex, cerebellum, brainstem, and the deep nuclei — with every component from v1–v5 placed at a plausible relative position and wired into one living mesh. Rotate it. The wiring is the thesis.</p></header>
-<div class="big"><b>WHAT v6 IS.</b> Not a new claim — a <i>synthesis</i>. Six versions built a brain one structure at a time; here they finally share one skull. The cerebral surface is grown from noise (gyri and sulci, a longitudinal fissure); beneath it sit the real relay and limbic and executive nuclei — thalamus, hippocampus, amygdala, olfactory bulbs — each at a plausible <i>relative</i> position (textbook ordering, hand-placed, not scan-derived). Over the anatomy runs the <span class="k">connectome</span>: five senses → thalamic gate → primary cortices → hippocampus/amygdala → prefrontal executive, with smell's bypass and the v5 empty-chair integrator drawn in. Three view modes: the <b>x-ray</b> (glass brain + wiring), the <b>wire mesh</b> (the surface as pure wireframe), and the <b>connectome</b> (wiring alone). Drag to rotate · wheel to zoom.</div>
+<div class="big"><b>WHAT v6 IS.</b> Not a new claim — a <i>synthesis</i>. Six versions built a brain one structure at a time; here they finally share one skull. The cerebral surface is grown from noise (gyri and sulci, a longitudinal fissure); beneath it sit the real relay and limbic and executive nuclei — thalamus, hippocampus, amygdala, olfactory bulbs — each at a plausible <i>relative</i> position (textbook ordering, hand-placed, not scan-derived). Over the anatomy runs the <span class="k">connectome</span>: five senses → thalamic gate → primary cortices → hippocampus/amygdala → prefrontal executive, with smell's bypass and the v5 empty-chair integrator drawn in. View modes: <b>x-ray</b> (glass + wiring), <b>wire mesh</b>, <b>connectome</b> (wiring alone), <b>solid anatomy</b>, and <b>⬡ nanites</b> — which populates the brain with a swarm of 3-bit nanites (one per token) that ride the fibers, each carrying 1 payload bit + 2 command-and-control bits. Drag to rotate · wheel to zoom.</div>
 <h2>The brain — real WebGL, drag to rotate</h2>
 <div class="ctrl">
 <button id="m_xray" class="on" onclick="setMode('xray')">◐ x-ray (glass + wiring)</button>
 <button id="m_wire" onclick="setMode('wire')">△ wire mesh</button>
 <button id="m_conn" onclick="setMode('conn')">✦ connectome only</button>
 <button id="m_anat" onclick="setMode('anat')">◉ solid anatomy</button>
+<button id="m_nano" onclick="setMode('nano')">⬡ nanites · 1/token · 3-bit</button>
 </div>
 <div class="ctrl">
 <label>explode the nuclei (pull the deep structures apart)<input id="explode" type="range" min="0" max="1" step="0.01" value="0" oninput="expv()"><span class="val" id="expvv">0.00</span></label>
+<label>token stream N · 1 nanite / token<input id="ntok" type="range" min="8" max="512" step="8" value="128" oninput="ntokv()"><span class="val" id="ntokvv">128</span></label>
 <button id="lblbtn" class="on" onclick="toggleLabels()">🏷 labels: on</button>
 <button id="spinbtn" class="on" onclick="toggleSpin()">↻ auto-rotate: on</button>
 </div>
@@ -60,10 +62,12 @@ footer{margin-top:24px;font-family:var(--mono);font-size:10.5px;color:var(--ink3
 <i style="background:#dccbb8"></i>cerebral cortex<i style="background:#c9b79f"></i>cerebellum<i style="background:#b39a82"></i>brainstem<i style="background:#7f77dd"></i>thalamus<i style="background:#b06adf"></i>hippocampus<i style="background:#ff2d55"></i>amygdala<i style="background:#ff7a6a"></i>olfactory bulb<br>
 <i style="background:#378add"></i>sight/V1<i style="background:#2dd4bf"></i>sound/A1<i style="background:#5dcaa5"></i>touch/S1<i style="background:#e6a817"></i>taste/gustatory<i style="background:#4a9eff"></i>PFC executive<i style="background:#8a8078"></i>empty-chair integrator</div>
 <div class="caption">3D · one procedurally-grown brain holding every structure the series built. Fibers: thin = sensory relay through the thalamus · dashed-bright = smell's thalamic bypass · blue = prefrontal top-down control · orange = callosal (L↔R) · grey = the four fibers routed to the v5 integrator node (the "empty chair" is an editorial figure).</div>
+<div class="leg" id="nanoleg" style="display:none">&#11041; NANITE = 3 bits &middot; <b>prim</b> (1 bit, the payload — bright dot = 1, dim = 0) + <b>c&amp;c</b> (2 bits = 4 commands): <i style="background:#e6a817"></i>LATCH <i style="background:#2dd4bf"></i>CARRY <i style="background:#b06adf"></i>DEPOSIT <i style="background:#39ff8a"></i>FORWARD. One nanite rides one token along the fibers; its colour reads its c&amp;c command, its brightness reads its prim bit.</div>
+<div class="caption" id="nanostat" style="display:none">nanite swarm idle — press ⬡ nanites</div>
 <h2>Diagnostics — wiring, matrix &amp; mesh-count re-verified at load</h2>
 <div class="cards" id="checks"></div>
 <div class="toddler"><b>TODDLER CORNER</b><p>All the brain pieces we built one-at-a-time finally live in the same head — and now it's a REAL 3D brain you can spin around with your mouse, not a flat drawing pretending. The wrinkly outside is the thinking-skin. Tucked inside are the little parts: the switchboard in the middle, the seahorse-shaped memory-maker, the tiny alarm bell, the smell-bulbs up front. Glowing threads connect them all — that's the "wiring." Press <b>wire mesh</b> to see the brain as just a net of lines, or <b>connectome</b> to see only the glowing threads with nothing else. Spin it and watch which parts talk to which.</p></div>
-<div class="ledger"><span class="tier l">LIT</span> the wiring topology (which structure connects to which) and the live matrix/geometry math · <span class="tier a">AMBER</span> the folded surface is a <i>procedural approximation</i> grown from noise (a plausible brain shape, NOT a scan-derived mesh); the nuclei <i>positions</i> are hand-placed — a plausible textbook-relative layout, not measured or atlas-registered; the empty-chair "integrator" is an editorial figure (four fibers converge on the node); and the trope-channel mapping carried up from v1–v5 is editorial. Red card = miswired.</div>
+<div class="ledger"><span class="tier l">LIT</span> the wiring topology (which structure connects to which) and the live matrix/geometry math · <span class="tier a">AMBER</span> the folded surface is a <i>procedural approximation</i> grown from noise (a plausible brain shape, NOT a scan-derived mesh); the nuclei <i>positions</i> are hand-placed — a plausible textbook-relative layout, not measured or atlas-registered; the empty-chair "integrator" is an editorial figure (four fibers converge on the node); and the trope-channel mapping carried up from v1–v5 is editorial. &#8226; the <b>⬡ nanite</b> layer is a 3-bit transport <i>figure</i>: LIT — 1 prim + 2 c&amp;c = 3 bits exact, the 2 c&amp;c bits index exactly 4 commands (LATCH/CARRY/DEPOSIT/FORWARD), and N nanites = N tokens = 3N bits, all counted live on screen; FIG — the swarm riding the fibers is a routing visualization; WALL — no physical nanites, no minds, the "token" is an abstract unit. Red card = miswired.</div>
 <footer>POSI-CORP EPL Cortex v6 · single-file seed · offline · raw WebGL, no libraries · system fonts · the line: Pañcaka → Triveṇī → Cortex v1–v6 · J-space held open</footer>
 </div><script>
 /* ================= diagnostics scaffold (series-standard) ================= */
@@ -203,6 +207,11 @@ let MODE='xray',SHOWLBL=true,SPIN=true,EXPLODE=0;
 let yaw=0.6,pitch=0.22,dist=4.4;
 const SURF=[];  // {vbo,nbo,ibo,icount,ebo,ecount,color,alpha,centroid,explodes}
 let gl,progS,progL,progP,nodeBuf,edgeBuf,edgeColBuf,canvas,labelWrap,pvMat,eye;
+let NTOK=128,NANO=null,nanoBuf=null,nstatEl=null;
+const NCOL=[[0.90,0.66,0.09],[0.18,0.83,0.75],[0.69,0.42,0.87],[0.22,1.0,0.55]];
+function nbit(i){var h=(Math.imul(i^0x9e3779b9,2654435761))>>>0;return (h>>>13)&1;}
+function nspd(i){return 0.0035+0.0075*(((Math.imul(i+1,40503))>>>0)%1000)/1000;}
+function buildNanites(n){NTOK=n;NANO=[];for(var i=0;i<n;i++)NANO.push({ei:i%Math.max(1,EDG.length),ph:(i*0.6180339887)%1,prim:nbit(i),spd:nspd(i)});}
 
 function compile(vs,fs){const p=gl.createProgram();
  [[gl.VERTEX_SHADER,vs],[gl.FRAGMENT_SHADER,fs]].forEach(([t,src])=>{const s=gl.createShader(t);
@@ -258,6 +267,7 @@ guard(()=>{
  nodeBuf={p:buf(new Float32Array(np)),c:buf(new Float32Array(nc)),s:buf(new Float32Array(ns)),n:NODES.length};
  const ep=[],ec=[];EDG.forEach(e=>{ep.push(...e[0],...e[1]);const c=EGC[e[2]];ec.push(...c,...c);});
  edgeBuf={p:buf(new Float32Array(ep)),c:buf(new Float32Array(ec)),n:EDG.length*2};
+ nanoBuf={p:gl.createBuffer(),c:gl.createBuffer(),s:gl.createBuffer()};buildNanites(NTOK);nstatEl=document.getElementById('nanostat');
  check('deep-structure meshes built',SURF.filter(o=>o.explodes).length,8,'LIT','8 bilateral nuclei (thalamus×2 · hippocampus×2 · amygdala×2 · olfactory×2) explode out; +cerebrum, cerebellum, brainstem = '+SURF.length+' meshes total');renderChecks(document.getElementById('checks'));
 
  // ---- labels ----
@@ -293,7 +303,7 @@ function frame(){
  gl.enable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
 
  const showSurf=(MODE==='xray'||MODE==='anat'),showWire=(MODE==='wire'),
-  faintWire=(MODE==='conn'),showConn=(MODE!=='anat');
+  faintWire=(MODE==='conn'||MODE==='nano'),showConn=(MODE!=='anat');
 
  // --- surfaces (triangles) ---
  if(showSurf){gl.useProgram(progS);
@@ -347,6 +357,32 @@ function frame(){
   gl.enable(gl.DEPTH_TEST);
   gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(true);}
 
+ // --- nanite swarm (3-bit: 1 prim + 2 c&c · 1 per token) ---
+ if(MODE==='nano'&&NANO){
+  var npos=new Float32Array(NTOK*3),ncol=new Float32Array(NTOK*3),nsz=new Float32Array(NTOK);
+  var cmd=[0,0,0,0],ones=0;
+  for(var q=0;q<NTOK;q++){var nn=NANO[q];nn.ph+=nn.spd;if(nn.ph>=1){nn.ph-=1;nn.ei=(nn.ei+1)%EDG.length;}
+   var e=EDG[nn.ei],a=e[0],b=e[1],t=nn.ph,et=t*t*(3-2*t);
+   npos[q*3]=a[0]+(b[0]-a[0])*et;npos[q*3+1]=a[1]+(b[1]-a[1])*et;npos[q*3+2]=a[2]+(b[2]-a[2])*et;
+   var cc=t<0.12?0:(t<0.85?1:(t<0.97?2:3));cmd[cc]++;if(nn.prim)ones++;
+   var c=NCOL[cc],br=nn.prim?1.0:0.42;
+   ncol[q*3]=c[0]*br;ncol[q*3+1]=c[1]*br;ncol[q*3+2]=c[2]*br;nsz[q]=nn.prim?4.4:2.8;}
+  gl.useProgram(progP);
+  gl.uniformMatrix4fv(gl.getUniformLocation(progP,'uP'),false,new Float32Array(P));
+  gl.uniformMatrix4fv(gl.getUniformLocation(progP,'uV'),false,new Float32Array(V));
+  gl.uniform1f(gl.getUniformLocation(progP,'uDPR'),Math.min(devicePixelRatio||1,2));
+  gl.blendFunc(gl.SRC_ALPHA,gl.ONE);gl.disable(gl.DEPTH_TEST);
+  gl.bindBuffer(gl.ARRAY_BUFFER,nanoBuf.p);gl.bufferData(gl.ARRAY_BUFFER,npos,gl.DYNAMIC_DRAW);
+  var lp=gl.getAttribLocation(progP,'aPos');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,3,gl.FLOAT,false,0,0);
+  gl.bindBuffer(gl.ARRAY_BUFFER,nanoBuf.c);gl.bufferData(gl.ARRAY_BUFFER,ncol,gl.DYNAMIC_DRAW);
+  var lc=gl.getAttribLocation(progP,'aCol');gl.enableVertexAttribArray(lc);gl.vertexAttribPointer(lc,3,gl.FLOAT,false,0,0);
+  gl.bindBuffer(gl.ARRAY_BUFFER,nanoBuf.s);gl.bufferData(gl.ARRAY_BUFFER,nsz,gl.DYNAMIC_DRAW);
+  var ls=gl.getAttribLocation(progP,'aSize');gl.enableVertexAttribArray(ls);gl.vertexAttribPointer(ls,1,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.POINTS,0,NTOK);
+  gl.enable(gl.DEPTH_TEST);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(true);
+  if(nstatEl)nstatEl.innerHTML='<b>POPULATION</b> '+NTOK+' nanites &middot; 1 per token &middot; 3 bits ea (1 prim + 2 c&amp;c) = <b>'+(NTOK*3)+' bits</b> &middot; prim payload <b>'+ones+'</b> ones / '+(NTOK-ones)+' zeros &middot; c&amp;c live: <span style="color:#e6a817">LATCH '+cmd[0]+'</span> <span style="color:#2dd4bf">CARRY '+cmd[1]+'</span> <span style="color:#b06adf">DEPOSIT '+cmd[2]+'</span> <span style="color:#39ff8a">FORWARD '+cmd[3]+'</span> (Σ='+(cmd[0]+cmd[1]+cmd[2]+cmd[3])+')';
+ }
+
  updateLabels();
  requestAnimationFrame(frame);}
 
@@ -368,8 +404,11 @@ function setMode(m){MODE=m;
  document.getElementById('m_xray').classList.toggle('on',m==='xray');
  document.getElementById('m_wire').classList.toggle('on',m==='wire');
  document.getElementById('m_conn').classList.toggle('on',m==='conn');
- document.getElementById('m_anat').classList.toggle('on',m==='anat');}
+ document.getElementById('m_anat').classList.toggle('on',m==='anat');
+ document.getElementById('m_nano').classList.toggle('on',m==='nano');
+ var _nl=document.getElementById('nanoleg'),_ns=document.getElementById('nanostat');if(_nl)_nl.style.display=m==='nano'?'block':'none';if(_ns)_ns.style.display=m==='nano'?'block':'none';}
 function expv(){EXPLODE=+document.getElementById('explode').value;document.getElementById('expvv').textContent=EXPLODE.toFixed(2);}
+function ntokv(){var n=+document.getElementById('ntok').value;document.getElementById('ntokvv').textContent=n;buildNanites(n);}
 function toggleLabels(){SHOWLBL=!SHOWLBL;const b=document.getElementById('lblbtn');b.textContent='🏷 labels: '+(SHOWLBL?'on':'off');b.classList.toggle('on',SHOWLBL);}
 function toggleSpin(){SPIN=!SPIN;syncBtns();}
 function syncBtns(){const b=document.getElementById('spinbtn');b.textContent='↻ auto-rotate: '+(SPIN?'on':'off');b.classList.toggle('on',SPIN);}
