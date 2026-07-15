@@ -63,7 +63,7 @@ footer{margin-top:24px;font-family:var(--mono);font-size:10.5px;color:var(--ink3
 <div class="leg">
 <i style="background:#dbc9b8"></i>L-cortex 1<i style="background:#ccb8a3"></i>L-cortex 2<i style="background:#e0c2a3"></i>R-cortex 1<i style="background:#d1b399"></i>R-cortex 2<i style="background:#fac24c"></i>CENTER CORTEX · #5 (hub)<i style="background:#c9b79f"></i>cerebellum<i style="background:#b39a82"></i>brainstem<br>
 <i style="background:#388ade"></i>sight<i style="background:#2dd4bf"></i>sound<i style="background:#5cc9a6"></i>touch<i style="background:#e6a817"></i>taste<i style="background:#ff7a6a"></i>smell &nbsp;·&nbsp; gold spokes = hemisphere → hub · teal spokes = senses → hub</div>
-<div class="caption">3D · a STAR of five cortex pieces. Gold spokes = the 4 hemisphere pieces (2 left · 2 right) into the CENTER CORTEX (#5, dead centre); teal spokes = the five senses into the same hub. Every fiber ends at c5 — none joins two outer nodes. The nanites ride the spokes, carrying the corpus into the centre.</div>
+<div class="caption">3D · a STAR of five cortex pieces. Gold spokes = the 4 hemisphere pieces (2 left · 2 right) into the CENTER CORTEX (#5, dead centre); teal spokes = the five senses into the same hub. Every fiber ends at c5 — none joins two outer nodes. The nanites ride the spokes, carrying the corpus into the centre — the corpus is allocated across the pieces: 24% to each of the 4 hemisphere pieces, 4% to the centre (#5).</div>
 <div class="leg" id="nanoleg" style="display:none">&#11041; NANITE = 3 bits &middot; each carries one <b>corpus sphere</b> as its token (1,415 in all) &middot; <b>colour</b> = that sphere's own colour (the corpus, flowing through the brain) &middot; <b>brightness</b> = the <b>prim</b> payload bit (1 = bright, 0 = dim) &middot; <b>size</b> = the 2-bit <b>c&amp;c</b> command: LATCH &lt; CARRY &lt; DEPOSIT &lt; FORWARD. One nanite rides one token along the fibers; the readout below streams which spheres are being delivered.</div>
 <div class="caption" id="nanostat" style="display:none">nanite swarm idle — press ⬡ nanites</div>
 <div class="caption" id="nanonow" style="display:none">&#9672; delivering…</div>
@@ -221,7 +221,7 @@ try{CORPUS=(JSON.parse(document.getElementById('corpus').textContent).p)||[];}ca
 function nspd(i){return 0.0035+0.0075*(((Math.imul(i+1,40503))>>>0)%1000)/1000;}
 function hbit(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>7)&1;}
 function hexrgb(hx){hx=(hx||'#8a8a8a').replace('#','');if(hx.length===3)hx=hx.replace(/(.)/g,'$1$1');var r=parseInt(hx.slice(0,2),16),g=parseInt(hx.slice(2,4),16),b=parseInt(hx.slice(4,6),16);return [(isNaN(r)?140:r)/255,(isNaN(g)?140:g)/255,(isNaN(b)?140:b)/255];}
-function buildNanites(n){var L=CORPUS.length;if(L)n=Math.max(1,Math.min(n,L));NTOK=n;NANO=[];for(var i=0;i<n;i++){var tk=CORPUS[i]||{};NANO.push({ei:i%Math.max(1,EDG.length),ph:(i*0.6180339887)%1,tok:i,prim:tk.s?hbit(tk.s):(i&1),rgb:hexrgb(tk.c),spd:nspd(i)});}}
+function buildNanites(n){var L=CORPUS.length;if(L)n=Math.max(1,Math.min(n,L));NTOK=n;NANO=[];for(var i=0;i<n;i++){var tk=CORPUS[i]||{};var f=i/n,pc=f<0.24?0:(f<0.48?1:(f<0.72?2:(f<0.96?3:4))),spoke=pc<4?pc:(4+(i%5));NANO.push({ei:spoke,pc:pc,ph:(i*0.6180339887)%1,tok:i,prim:tk.s?hbit(tk.s):(i&1),rgb:hexrgb(tk.c),spd:nspd(i)});}}
 
 function compile(vs,fs){const p=gl.createProgram();
  [[gl.VERTEX_SHADER,vs],[gl.FRAGMENT_SHADER,fs]].forEach(([t,src])=>{const s=gl.createShader(t);
@@ -283,6 +283,7 @@ guard(()=>{
  const ep=[],ec=[];EDG.forEach(e=>{ep.push(...e[0],...e[1]);const c=EGC[e[2]];ec.push(...c,...c);});
  edgeBuf={p:buf(new Float32Array(ep)),c:buf(new Float32Array(ec)),n:EDG.length*2};
  nanoBuf={p:gl.createBuffer(),c:gl.createBuffer(),s:gl.createBuffer()};buildNanites(NTOK);nstatEl=document.getElementById('nanostat');nowEl=document.getElementById('nanonow');torusCv=document.getElementById('torus');torusCtx=torusCv?torusCv.getContext('2d'):null;torusStatEl=document.getElementById('torusstat');var _nt=document.getElementById('ntok');if(_nt&&CORPUS.length){_nt.max=CORPUS.length;_nt.value=NTOK;document.getElementById('ntokvv').textContent=NTOK;}
+ var _al=[0,0,0,0,0];NANO.forEach(function(nn){_al[nn.pc]++;});check('corpus allocated 24%×4 + 4% across the 5 cortex pieces',_al.map(function(a){return Math.round(a/NTOK*100);}),[24,24,24,24,4],'LIT','4 hemisphere pieces ~24% each (spokes 0–3) · centre #5 ~4% (arrives via the senses) = 100%');
  check('deep-structure meshes built',SURF.filter(o=>o.explodes).length,8,'LIT','8 bilateral nuclei (thalamus×2 · hippocampus×2 · amygdala×2 · olfactory×2) explode out; +5 cortex pieces, cerebellum, brainstem = '+SURF.length+' meshes total');renderChecks(document.getElementById('checks'));
 
  // ---- labels ----
@@ -375,11 +376,11 @@ function frame(){
  // --- nanite swarm (3-bit: 1 prim + 2 c&c · 1 per token) ---
  if(MODE==='nano'&&NANO){
   var npos=new Float32Array(NTOK*3),ncol=new Float32Array(NTOK*3),nsz=new Float32Array(NTOK);
-  var cmd=[0,0,0,0],ones=0,now=[];FRAMEN=(FRAMEN+1)|0;
-  for(var q=0;q<NTOK;q++){var nn=NANO[q];nn.ph+=nn.spd;if(nn.ph>=1){nn.ph-=1;nn.ei=(nn.ei+1)%EDG.length;TLOG.push({tok:nn.tok,prim:nn.prim,seq:TSEQ++});if(TLOG.length>TCAP)TLOG.shift();}
+  var cmd=[0,0,0,0],ones=0,now=[],alloc=[0,0,0,0,0];FRAMEN=(FRAMEN+1)|0;
+  for(var q=0;q<NTOK;q++){var nn=NANO[q];nn.ph+=nn.spd;if(nn.ph>=1){nn.ph-=1;TLOG.push({tok:nn.tok,prim:nn.prim,seq:TSEQ++});if(TLOG.length>TCAP)TLOG.shift();}
    var e=EDG[nn.ei],a=e[0],b=e[1],t=nn.ph,et=t*t*(3-2*t);
    npos[q*3]=a[0]+(b[0]-a[0])*et;npos[q*3+1]=a[1]+(b[1]-a[1])*et;npos[q*3+2]=a[2]+(b[2]-a[2])*et;
-   var cc=t<0.12?0:(t<0.85?1:(t<0.97?2:3));cmd[cc]++;if(nn.prim)ones++;
+   var cc=t<0.12?0:(t<0.85?1:(t<0.97?2:3));cmd[cc]++;alloc[nn.pc]++;if(nn.prim)ones++;
    var rgb=nn.rgb,br=nn.prim?1.0:0.5;
    ncol[q*3]=rgb[0]*br;ncol[q*3+1]=rgb[1]*br;ncol[q*3+2]=rgb[2]*br;nsz[q]=NSIZE[cc];
    if(cc===2&&now.length<5){var tkn=CORPUS[nn.tok];if(tkn)now.push(tkn);}}
@@ -396,7 +397,7 @@ function frame(){
   var ls=gl.getAttribLocation(progP,'aSize');gl.enableVertexAttribArray(ls);gl.vertexAttribPointer(ls,1,gl.FLOAT,false,0,0);
   gl.drawArrays(gl.POINTS,0,NTOK);
   gl.enable(gl.DEPTH_TEST);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(true);
-  if(nstatEl)nstatEl.innerHTML='<b>POPULATION</b> '+NTOK+' nanites carrying <b>'+NTOK+' of '+CORPUS.length+'</b> corpus spheres (1 nanite / token) &middot; 3 bits ea = <b>'+(NTOK*3)+' bits</b> &middot; prim <b>'+ones+'</b> ones / '+(NTOK-ones)+' zeros &middot; c&amp;c: LATCH '+cmd[0]+' &middot; CARRY '+cmd[1]+' &middot; DEPOSIT '+cmd[2]+' &middot; FORWARD '+cmd[3];
+  if(nstatEl)nstatEl.innerHTML='<b>POPULATION</b> '+NTOK+' nanites carrying <b>'+NTOK+' of '+CORPUS.length+'</b> corpus spheres (1 nanite / token) &middot; 3 bits ea = <b>'+(NTOK*3)+' bits</b> &middot; prim <b>'+ones+'</b> ones / '+(NTOK-ones)+' zeros &middot; c&amp;c: LATCH '+cmd[0]+' &middot; CARRY '+cmd[1]+' &middot; DEPOSIT '+cmd[2]+' &middot; FORWARD '+cmd[3]+'<br>&#9673; corpus allocated to the 5 cortex pieces &mdash; <b style="color:#dbc9b8">L1 '+alloc[0]+'</b> &middot; <b style="color:#ccb8a3">L2 '+alloc[1]+'</b> &middot; <b style="color:#e0c2a3">R1 '+alloc[2]+'</b> &middot; <b style="color:#d1b399">R2 '+alloc[3]+'</b> &middot; <b style="color:#fac24c">CENTRE #5 '+alloc[4]+'</b> &nbsp; ('+Math.round(alloc[0]/NTOK*100)+'% &times;4 + '+Math.round(alloc[4]/NTOK*100)+'% = 100%)';
   if(torusCtx)drawTorus();
   if(nowEl&&FRAMEN%14===0)nowEl.innerHTML='&#9672; delivering into the brain: '+(now.length?now.map(function(tk){return '<span style="color:'+(tk.c||'#8fd9b8')+'">'+(tk.n||tk.s)+'</span> <span style="opacity:.45">'+(tk.d||'')+'</span>';}).join(' &nbsp;&middot;&nbsp; '):'&mdash;');
  }
