@@ -41,10 +41,10 @@ footer{margin-top:24px;font-family:var(--mono);font-size:10.5px;color:var(--ink3
 .dlwbadge b{color:var(--lit)}.dlwbadge .mono{color:var(--amber);word-break:break-all}.dlwbadge .tag{color:var(--orange);font-weight:bold;letter-spacing:.09em}
 .leg{font-family:var(--mono);font-size:11px;color:var(--ink3);margin:4px 0 0;line-height:1.9}
 .leg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 12px;vertical-align:-1px}</style></head><body><div class="wrap">
-<header class="m"><div class="series">POSI-CORP · EPL CORTEX v6 · THE CONNECTOME — THE WHOLE STACK, WIRED IN 3D</div>
+<header class="m"><div class="series">POSI-CORP · EPL CORTEX v6 · THE CONNECTOME — FIVE CORTEX PIECES, WIRED AS A STAR</div>
 <h1>The EPL Cortex, v6</h1>
-<p class="sub">The five prior layers were drawn on a flat canvas with a hand-rolled projection. v6 lifts the whole assembly into real WebGL: a procedurally-grown brain — folded cortex, cerebellum, brainstem, and the deep nuclei — with every component from v1–v5 placed at a plausible relative position and wired into one living mesh. Rotate it. The wiring is the thesis.</p></header>
-<div class="big"><b>WHAT v6 IS.</b> Not a new claim — a <i>synthesis</i>. Six versions built a brain one structure at a time; here they finally share one skull. The cerebral surface is grown from noise (gyri and sulci, a longitudinal fissure); beneath it sit the real relay and limbic and executive nuclei — thalamus, hippocampus, amygdala, olfactory bulbs — each at a plausible <i>relative</i> position (textbook ordering, hand-placed, not scan-derived). Over the anatomy runs the <span class="k">connectome</span>: five senses → thalamic gate → primary cortices → hippocampus/amygdala → prefrontal executive, with smell's bypass and the v5 empty-chair integrator drawn in. View modes: <b>x-ray</b> (glass + wiring), <b>wire mesh</b>, <b>connectome</b> (wiring alone), <b>solid anatomy</b>, and <b>⬡ nanites</b> — which populates the brain with a swarm of 3-bit nanites, <b>one per token, and the tokens are the corpus itself</b>: each nanite carries one of the 1,415 ud0 spheres (coloured by that sphere) along the fibers, with 1 payload bit + 2 command-and-control bits. Drag to rotate · wheel to zoom.</div>
+<p class="sub">The five prior layers were drawn on a flat canvas with a hand-rolled projection. v6 lifts the whole assembly into real WebGL: a procedurally-grown brain — now rebuilt as FIVE distinct cortex pieces (2 left · 2 right · 1 at dead centre, #5), plus cerebellum, brainstem and the deep nuclei — wired as a STAR: every fiber is a spoke that ends at the central cortex, the hub. Rotate it. The star is the thesis.</p></header>
+<div class="big"><b>WHAT v6 IS.</b> Not a new claim — a <i>synthesis</i>. Six versions built a brain one structure at a time; here they finally share one skull. The cerebral surface is grown from noise (gyri and sulci, a longitudinal fissure); beneath it sit the real relay and limbic and executive nuclei — thalamus, hippocampus, amygdala, olfactory bulbs — each at a plausible <i>relative</i> position (textbook ordering, hand-placed, not scan-derived). Over the anatomy runs a STAR <span class="k">connectome</span>: the cortex is FIVE distinct pieces — two on the left, two on the right, and one at the exact centre (the CENTER CORTEX, #5) — and every fiber is a spoke that ends at that central hub; the five senses spoke in too. View modes: <b>x-ray</b> (glass + wiring), <b>wire mesh</b>, <b>connectome</b> (wiring alone), <b>solid anatomy</b>, and <b>⬡ nanites</b> — which populates the brain with a swarm of 3-bit nanites, <b>one per token, and the tokens are the corpus itself</b>: each nanite carries one of the 1,415 ud0 spheres (coloured by that sphere) along the fibers, with 1 payload bit + 2 command-and-control bits. Drag to rotate · wheel to zoom.</div>
 <h2>The brain — real WebGL, drag to rotate</h2>
 <div class="ctrl">
 <button id="m_xray" class="on" onclick="setMode('xray')">◐ x-ray (glass + wiring)</button>
@@ -61,9 +61,9 @@ footer{margin-top:24px;font-family:var(--mono);font-size:10.5px;color:var(--ink3
 </div>
 <div class="glwrap"><canvas id="brain"></canvas><div class="labels" id="labels"></div></div>
 <div class="leg">
-<i style="background:#dccbb8"></i>cerebral cortex<i style="background:#c9b79f"></i>cerebellum<i style="background:#b39a82"></i>brainstem<i style="background:#7f77dd"></i>thalamus<i style="background:#b06adf"></i>hippocampus<i style="background:#ff2d55"></i>amygdala<i style="background:#ff7a6a"></i>olfactory bulb<br>
-<i style="background:#378add"></i>sight/V1<i style="background:#2dd4bf"></i>sound/A1<i style="background:#5dcaa5"></i>touch/S1<i style="background:#e6a817"></i>taste/gustatory<i style="background:#4a9eff"></i>PFC executive<i style="background:#8a8078"></i>empty-chair integrator</div>
-<div class="caption">3D · one procedurally-grown brain holding every structure the series built. Fibers: thin = sensory relay through the thalamus · dashed-bright = smell's thalamic bypass · blue = prefrontal top-down control · orange = callosal (L↔R) · grey = the four fibers routed to the v5 integrator node (the "empty chair" is an editorial figure).</div>
+<i style="background:#dbc9b8"></i>L-cortex 1<i style="background:#ccb8a3"></i>L-cortex 2<i style="background:#e0c2a3"></i>R-cortex 1<i style="background:#d1b399"></i>R-cortex 2<i style="background:#fac24c"></i>CENTER CORTEX · #5 (hub)<i style="background:#c9b79f"></i>cerebellum<i style="background:#b39a82"></i>brainstem<br>
+<i style="background:#388ade"></i>sight<i style="background:#2dd4bf"></i>sound<i style="background:#5cc9a6"></i>touch<i style="background:#e6a817"></i>taste<i style="background:#ff7a6a"></i>smell &nbsp;·&nbsp; gold spokes = hemisphere → hub · teal spokes = senses → hub</div>
+<div class="caption">3D · a STAR of five cortex pieces. Gold spokes = the 4 hemisphere pieces (2 left · 2 right) into the CENTER CORTEX (#5, dead centre); teal spokes = the five senses into the same hub. Every fiber ends at c5 — none joins two outer nodes. The nanites ride the spokes, carrying the corpus into the centre.</div>
 <div class="leg" id="nanoleg" style="display:none">&#11041; NANITE = 3 bits &middot; each carries one <b>corpus sphere</b> as its token (1,415 in all) &middot; <b>colour</b> = that sphere's own colour (the corpus, flowing through the brain) &middot; <b>brightness</b> = the <b>prim</b> payload bit (1 = bright, 0 = dim) &middot; <b>size</b> = the 2-bit <b>c&amp;c</b> command: LATCH &lt; CARRY &lt; DEPOSIT &lt; FORWARD. One nanite rides one token along the fibers; the readout below streams which spheres are being delivered.</div>
 <div class="caption" id="nanostat" style="display:none">nanite swarm idle — press ⬡ nanites</div>
 <div class="caption" id="nanonow" style="display:none">&#9672; delivering…</div>
@@ -73,7 +73,7 @@ footer{margin-top:24px;font-family:var(--mono);font-size:10.5px;color:var(--ink3
 <h2>Diagnostics — wiring, matrix &amp; mesh-count re-verified at load</h2>
 <div class="cards" id="checks"></div>
 <div class="toddler"><b>TODDLER CORNER</b><p>All the brain pieces we built one-at-a-time finally live in the same head — and now it's a REAL 3D brain you can spin around with your mouse, not a flat drawing pretending. The wrinkly outside is the thinking-skin. Tucked inside are the little parts: the switchboard in the middle, the seahorse-shaped memory-maker, the tiny alarm bell, the smell-bulbs up front. Glowing threads connect them all — that's the "wiring." Press <b>wire mesh</b> to see the brain as just a net of lines, or <b>connectome</b> to see only the glowing threads with nothing else. Spin it and watch which parts talk to which.</p></div>
-<div class="ledger"><span class="tier l">LIT</span> the wiring topology (which structure connects to which) and the live matrix/geometry math · <span class="tier a">AMBER</span> the folded surface is a <i>procedural approximation</i> grown from noise (a plausible brain shape, NOT a scan-derived mesh); the nuclei <i>positions</i> are hand-placed — a plausible textbook-relative layout, not measured or atlas-registered; the empty-chair "integrator" is an editorial figure (four fibers converge on the node); and the trope-channel mapping carried up from v1–v5 is editorial. &#8226; the <b>⬡ nanite</b> layer is a 3-bit transport <i>figure</i>: LIT — 1 prim + 2 c&amp;c = 3 bits exact, the 2 c&amp;c bits index exactly 4 commands (LATCH/CARRY/DEPOSIT/FORWARD), and N nanites = N tokens = 3N bits, all counted live; the <b>tokens are the REAL corpus</b> — each nanite carries one of the 1,415 ud0 spheres (embedded offline), coloured by that sphere, prim bit = a hash bit of its slug; FIG — the swarm riding the fibers is a routing visualization; WALL — no physical nanites, no minds, the brain doesn't "process" the corpus, it is a transport rendering. &#8226; every nanite <b>DELIVERY</b> (a token completing its fiber, source&rarr;sink) is written in real time to the <b>TOROIDAL LOG</b> — a torus where each delivery winds around the tube along a sigmoid band (&phi;=&pi;&middot;tanh, one lap / 44), coloured by the delivered sphere; LIT: the delivery count is a true running tally; FIG: the torus &amp; the sigmoid winding are the figure. Red card = miswired.</div>
+<div class="ledger"><span class="tier l">LIT</span> the STAR graph — 5 cortex pieces (2 left · 2 right · 1 centre, #5), and every fiber ends at the hub c5 (all counted &amp; checkable) — and the live matrix/geometry math · <span class="tier a">AMBER</span> the folded lobes are <i>procedural approximations</i> grown from noise (plausible shapes, NOT scan-derived); the positions are hand-placed; the trope-channel mapping carried up from v1–v5 is editorial; and &#9670; the STAR ITSELF is a <b>CHOSEN topology, not neuroanatomy</b> — a real cortex is not a 5-piece star on a central hub, so the graph is LIT but the "brain" reading is the figure. &#8226; the <b>⬡ nanite</b> layer is a 3-bit transport <i>figure</i>: LIT — 1 prim + 2 c&amp;c = 3 bits exact, the 2 c&amp;c bits index exactly 4 commands (LATCH/CARRY/DEPOSIT/FORWARD), and N nanites = N tokens = 3N bits, all counted live; the <b>tokens are the REAL corpus</b> — each nanite carries one of the 1,415 ud0 spheres (embedded offline), coloured by that sphere, prim bit = a hash bit of its slug; FIG — the swarm riding the fibers is a routing visualization; WALL — no physical nanites, no minds, the brain doesn't "process" the corpus, it is a transport rendering. &#8226; every nanite <b>DELIVERY</b> (a token completing its fiber, source&rarr;sink) is written in real time to the <b>TOROIDAL LOG</b> — a torus where each delivery winds around the tube along a sigmoid band (&phi;=&pi;&middot;tanh, one lap / 44), coloured by the delivered sphere; LIT: the delivery count is a true running tally; FIG: the torus &amp; the sigmoid winding are the figure. Red card = miswired.</div>
 <footer>POSI-CORP EPL Cortex v6 · single-file seed · offline · raw WebGL, no libraries · system fonts · the line: Pañcaka → Triveṇī → Cortex v1–v6 · J-space held open</footer>
 <div class="dlwbadge">
 <span class="tag">◆ SEALED · COMPLETE · PACKAGED</span> &nbsp; ⟦ THE CONNECTOME : the-connectome : <b>5e3103d9</b> ⟧<br>
@@ -172,47 +172,40 @@ function hippoTube(side){const pts=[],rad=[];
 const COL={cortex:[.86,.79,.72],cere:[.79,.72,.62],stem:[.70,.60,.51],
  thal:[.50,.47,.87],hippo:[.69,.42,.87],amyg:[1,.18,.33],olf:[1,.48,.42],
  sight:[.22,.54,.87],sound:[.18,.83,.75],touch:[.36,.79,.65],taste:[.90,.66,.09],
- pfc:[.29,.62,1],chair:[.54,.50,.47]};
+ pfc:[.29,.62,1],chair:[.54,.50,.47],
+ ctx1:[.86,.79,.72],ctx2:[.80,.72,.64],ctx3:[.88,.76,.64],ctx4:[.82,.70,.60],ctx5:[.98,.76,.30]};
 // connectome nodes: [key,label,pos,colorKey,size]
 const NODES=[
- ['sight','sight',[-0.86,-1.12,0.34],'sight',7],['sound','sound',[-0.54,-1.12,-0.78],'sound',7],
- ['touch','touch',[0.54,-1.12,-0.78],'touch',7],['taste','taste',[0.86,-1.12,0.34],'taste',7],
- ['smell','smell',[0,-1.12,0.98],'olf',7],
- ['thal','thalamus',[0,0.04,-0.03],'thal',10],
- ['V1','V1 · occipital',[0,0.06,-1.12],'sight',7],['A1','A1 · temporal',[0.72,-0.14,0.10],'sound',7],
- ['S1','S1 · parietal',[0,0.70,-0.22],'touch',7],['gust','gustatory · insula',[0.50,-0.05,0.24],'taste',7],
- ['olf','olfactory bulb',[0,-0.48,1.12],'olf',6],
- ['hippo','hippocampus',[0.48,-0.26,-0.05],'hippo',8],['amyg','amygdala',[0.52,-0.20,0.32],'amyg',7],
- ['PFC','prefrontal exec',[0,0.40,1.02],'pfc',11],
- ['chair','empty-chair integrator',[0,0.02,0.14],'chair',9]];
+ ['c1','L-cortex 1',[-0.56,0.08,0.52],'ctx1',10],['c2','L-cortex 2',[-0.56,0.08,-0.52],'ctx2',10],
+ ['c3','R-cortex 1',[0.56,0.08,0.52],'ctx3',10],['c4','R-cortex 2',[0.56,0.08,-0.52],'ctx4',10],
+ ['c5','CENTER CORTEX · #5',[0,0,0],'ctx5',15],
+ ['sight','sight',[-0.86,-1.02,0.34],'sight',7],['sound','sound',[-0.54,-1.02,-0.78],'sound',7],
+ ['touch','touch',[0.54,-1.02,-0.78],'touch',7],['taste','taste',[0.86,-1.02,0.34],'taste',7],
+ ['smell','smell',[0,-1.02,0.98],'olf',7]];
 const NPOS={};NODES.forEach(n=>NPOS[n[0]]=n[2]);
-// edge groups: sensory relay / bypass / encode / exec / callosal / through-chair
+// STAR topology — every fiber is a spoke that ends at the CENTER CORTEX (#5), the hub
 const EDG=[];
 function E(a,b,g){EDG.push([NPOS[a],NPOS[b],g]);}
-['sight','sound','touch','taste'].forEach(s=>E(s,'thal','relay'));
-E('thal','V1','relay');E('thal','A1','relay');E('thal','S1','relay');E('thal','gust','relay');
-E('smell','olf','bypass');E('olf','amyg','bypass');E('olf','hippo','bypass');       // smell skips thalamus
-['V1','A1','S1','gust'].forEach(p=>E(p,'hippo','encode'));                            // primary → encode
-E('hippo','thal','encode');E('amyg','PFC','amyg');E('PFC','amyg','exec');E('hippo','PFC','encode');
-['PFC','thal','amyg','hippo'].forEach(p=>E(p,'chair','chair'));                       // fibers through the chair
-const EGC={relay:[.55,.80,.78],bypass:[1,.48,.42],encode:[.69,.42,.87],amyg:[1,.18,.33],exec:[.29,.62,1],chair:[.54,.50,.47]};
+['c1','c2','c3','c4'].forEach(n=>E(n,'c5','cortex'));                     // 4 hemisphere pieces → centre hub c5
+['sight','sound','touch','taste','smell'].forEach(n=>E(n,'c5','sense'));  // five senses → the same hub
+const EGC={cortex:[.98,.78,.36],sense:[.36,.80,.72]};
 
 /* ================= diagnostics ================= */
 guard(()=>{
  // matrix sanity
  const I=M4.mul(M4.ident(),M4.ident());check('mat4 identity·identity',I.map(x=>+x.toFixed(3)),M4.ident(),'LIT','the projection pipeline math is live, not baked');
+ const cortex=NODES.filter(n=>['c1','c2','c3','c4','c5'].includes(n[0])).length;
+ check('five cortex pieces',cortex,5,'LIT','2 left (c1,c2) · 2 right (c3,c4) · 1 CENTRE (c5 = #5)');
+ const left=NODES.filter(n=>['c1','c2'].includes(n[0])&&n[2][0]<0).length,right=NODES.filter(n=>['c3','c4'].includes(n[0])&&n[2][0]>0).length;
+ check('2 left · 2 right hemisphere pieces',[left,right],[2,2],'LIT','left pieces have x<0, right pieces x>0');
+ check('center cortex #5 at dead centre (origin)',NPOS.c5,[0,0,0],'LIT','the hub sits at 0,0,0 — the exact centre of the brain');
+ const star=EDG.length>0&&EDG.every(e=>e[1]===NPOS.c5);
+ check('STAR topology — every fiber ends at the center cortex #5',star,true,'LIT','a true star: all '+EDG.length+' spokes terminate at the hub c5; no fiber joins two non-hub nodes');
  const senses=NODES.filter(n=>['sight','sound','touch','taste','smell'].includes(n[0])).length;
- check('five receptors present',senses,5,'LIT');
- const relayCount=EDG.filter(e=>e[2]==='relay'&&(e[0]===NPOS.sight||e[0]===NPOS.sound||e[0]===NPOS.touch||e[0]===NPOS.taste)).length;
- check('four senses relay via thalamus',relayCount,4,'LIT','sight/sound/touch/taste gated through the thalamic switchboard');
- const bypass=EDG.filter(e=>e[2]==='bypass'&&e[0]===NPOS.smell).length;
- check('smell bypasses the thalamus',bypass,1,'LIT','olfaction → bulb → limbic, no thalamic relay (v4)');
- check('amygdala↔PFC bidirectional',[EDG.some(e=>e[2]==='amyg'),EDG.some(e=>e[2]==='exec')],[true,true],'LIT','salience up, top-down control down (v3)');
- const chair=EDG.filter(e=>e[2]==='chair').length;
- check('four fibers converge on the integrator node',chair,4,'AMBER','the v5 empty-chair integrator — PFC/thalamus/amygdala/hippocampus route to the node; the "empty seat / passes through" wording is an editorial figure');
- check('surface is procedural, not scanned',true,true,'AMBER','gyri grown from 4-octave value-noise fbm — plausible morphology, not an MRI mesh');
- check('trope-channel mapping carried up',{E:'ethos',P:'pathos',L:'logos'},{E:'ethos',P:'pathos',L:'logos'},'AMBER','the v1 EPL channels persist as the editorial overlay');
- check('v6 topology',[NODES.length,EDG.length],[15,23],'LIT',NODES.length+' connectome nodes · '+EDG.length+' fibers · 11 meshes (cortex, cerebellum, brainstem + 8 bilateral nuclei), one skull');
+ check('five receptors present',senses,5,'LIT','the senses spoke into the central cortex');
+ check('surfaces are procedural, not scanned',true,true,'AMBER','the lobes are 4-octave value-noise fbm — plausible shapes, not an MRI mesh');
+ check('the STAR is a CHOSEN topology, not neuroanatomy',true,true,'AMBER','a real cortex is not a 5-piece star hubbed on a central lobe — this is a chosen wiring; the graph is LIT, the "brain" reading is the figure');
+ check('star topology',[NODES.length,EDG.length],[10,9],'LIT',NODES.length+' nodes (5 cortex pieces + 5 senses) · '+EDG.length+' spokes · all to the hub c5');
  renderChecks(document.getElementById('checks'));
 },'checks');
 
@@ -266,7 +259,12 @@ guard(()=>{
   'float a=smoothstep(0.5,0.08,d);gl_FragColor=vec4(vC+ (1.0-a)*0.0, a);}');
 
  // ---- build meshes ----
- addSurf(buildCerebrum(),COL.cortex,0.15,[0,0,0],false);
+ // five distinct cortex pieces: 2 left · 2 right · 1 dead-centre (#5, the star hub)
+ addSurf(buildEllipsoid(-0.56,0.08, 0.52,0.40,0.38,0.42,30,44,0.14,11),COL.ctx1,0.16,[-0.56,0.08, 0.52],false); // L-cortex 1
+ addSurf(buildEllipsoid(-0.56,0.08,-0.52,0.40,0.38,0.42,30,44,0.14,12),COL.ctx2,0.16,[-0.56,0.08,-0.52],false); // L-cortex 2
+ addSurf(buildEllipsoid( 0.56,0.08, 0.52,0.40,0.38,0.42,30,44,0.14,13),COL.ctx3,0.16,[ 0.56,0.08, 0.52],false); // R-cortex 1
+ addSurf(buildEllipsoid( 0.56,0.08,-0.52,0.40,0.38,0.42,30,44,0.14,14),COL.ctx4,0.16,[ 0.56,0.08,-0.52],false); // R-cortex 2
+ addSurf(buildEllipsoid( 0,0,0,0.36,0.34,0.36,30,44,0.14,15),COL.ctx5,0.26,[0,0,0],false);                      // CENTER CORTEX #5 (dead-centre hub)
  addSurf(buildEllipsoid(0,-0.52,-0.96,0.60,0.40,0.50,26,40,0.10,3),COL.cere,0.40,[0,-0.52,-0.96],false);   // cerebellum
  addSurf(buildTube([[0,-0.10,-0.05],[0,-0.45,0.0],[0,-0.80,0.06],[0,-1.08,0.12]],[0.12,0.10,0.08,0.055],14),COL.stem,0.85,[0,-0.6,0.03],false); // brainstem
  // deep nuclei (explode outward)
@@ -285,7 +283,7 @@ guard(()=>{
  const ep=[],ec=[];EDG.forEach(e=>{ep.push(...e[0],...e[1]);const c=EGC[e[2]];ec.push(...c,...c);});
  edgeBuf={p:buf(new Float32Array(ep)),c:buf(new Float32Array(ec)),n:EDG.length*2};
  nanoBuf={p:gl.createBuffer(),c:gl.createBuffer(),s:gl.createBuffer()};buildNanites(NTOK);nstatEl=document.getElementById('nanostat');nowEl=document.getElementById('nanonow');torusCv=document.getElementById('torus');torusCtx=torusCv?torusCv.getContext('2d'):null;torusStatEl=document.getElementById('torusstat');var _nt=document.getElementById('ntok');if(_nt&&CORPUS.length){_nt.max=CORPUS.length;_nt.value=NTOK;document.getElementById('ntokvv').textContent=NTOK;}
- check('deep-structure meshes built',SURF.filter(o=>o.explodes).length,8,'LIT','8 bilateral nuclei (thalamus×2 · hippocampus×2 · amygdala×2 · olfactory×2) explode out; +cerebrum, cerebellum, brainstem = '+SURF.length+' meshes total');renderChecks(document.getElementById('checks'));
+ check('deep-structure meshes built',SURF.filter(o=>o.explodes).length,8,'LIT','8 bilateral nuclei (thalamus×2 · hippocampus×2 · amygdala×2 · olfactory×2) explode out; +5 cortex pieces, cerebellum, brainstem = '+SURF.length+' meshes total');renderChecks(document.getElementById('checks'));
 
  // ---- labels ----
  NODES.forEach(n=>{const d=document.createElement('div');d.className='lbl';d.textContent=n[1];
@@ -329,7 +327,7 @@ function frame(){
   gl.uniform3fv(gl.getUniformLocation(progS,'uEye'),new Float32Array(eye));
   // nuclei first (depth-write), cerebrum last (no depth-write, most transparent)
   const order=SURF.map((o,i)=>i).sort((a,b)=>SURF[a].alpha-SURF[b].alpha).reverse();
-  order.forEach(i=>{const o=SURF[i];const isCortex=(i===0);
+  order.forEach(i=>{const o=SURF[i];const isCortex=(i<5);
    gl.depthMask(!isCortex&&o.alpha>0.3);
    bindAttr(progS,'aPos',o.vbo,3);bindAttr(progS,'aNorm',o.nbo,3);
    gl.uniform3fv(gl.getUniformLocation(progS,'uColor'),new Float32Array(o.color));
@@ -345,7 +343,7 @@ function frame(){
   gl.uniform1f(gl.getUniformLocation(progL,'uForce'),1.0);
   gl.uniform1f(gl.getUniformLocation(progL,'uAlpha'),faintWire?0.10:0.5);
   gl.depthMask(false);
-  const wl=faintWire?[0]:SURF.map((o,i)=>i);   // conn mode: only cerebrum ghost
+  const wl=faintWire?[0,1,2,3,4]:SURF.map((o,i)=>i);   // conn/nano mode: ghost the 5 cortex pieces
   wl.forEach(i=>{const o=SURF[i];
    gl.uniform3fv(gl.getUniformLocation(progL,'uFcol'),new Float32Array(faintWire?[0.42,0.38,0.32]:o.color));
    gl.uniform3fv(gl.getUniformLocation(progL,'uOff'),new Float32Array(offOf(o)));
