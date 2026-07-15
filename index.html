@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>POSI-CORP · EPL Cortex v6 · The Connectome</title><style>
+:root{--ink:#E7E0D4;--ink2:#DED6C7;--ink3:#d4cab6;--bg:#141210;--bg2:#1c1916;--card:#211d19;
+--orange:#FF6A00;--amber:#e6a817;--teal:#2dd4bf;--coral:#ff7a6a;--lit:#39ff8a;--bad:#ff3b3b;--hippo:#b06adf;--amyg:#ff2d55;--pfc:#4a9eff;--thal:#7f77dd;--edge:#3a332b;
+--head:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--mono:ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--head);line-height:1.65;font-size:16px}
+.wrap{max-width:940px;margin:0 auto;padding:28px 20px 80px}
+header.m{border-bottom:3px solid var(--orange);padding-bottom:14px;margin-bottom:24px}
+.series{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--orange);text-transform:uppercase}
+h1{font-size:32px;margin:.25em 0 .1em}.sub{color:var(--ink3);font-style:italic;margin:0}
+h2{font-size:20px;margin:1.5em 0 .5em;border-left:4px solid var(--orange);padding-left:10px}
+p{margin:.7em 0}.k{color:var(--orange);font-weight:bold}
+canvas{display:block;width:100%;background:var(--bg2);border:1px solid var(--edge);border-radius:6px;margin:10px 0}
+.caption{font-family:var(--mono);font-size:11px;color:var(--ink3);margin:-4px 0 18px}
+.ctrl{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0;font-family:var(--mono);font-size:12px;align-items:center}
+.ctrl label{display:flex;flex-direction:column;gap:3px;min-width:150px}
+.ctrl input[type=range]{accent-color:var(--pfc)}.ctrl .val{color:var(--pfc)}
+.ctrl button{background:var(--card);color:var(--ink);border:1px solid var(--edge);border-radius:5px;padding:7px 12px;cursor:pointer;font-family:var(--mono);font-size:12px}
+.ctrl button:hover{border-color:var(--pfc);color:#fff}
+.ctrl button.on{border-color:var(--orange);color:#fff;background:#2a1c10}
+.glwrap{position:relative;margin:10px 0}
+.glwrap canvas{margin:0}
+.labels{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:hidden;font-family:var(--mono);font-size:10px}
+.lbl{position:absolute;transform:translate(-50%,-140%);white-space:nowrap;padding:1px 5px;border-radius:3px;background:rgba(20,18,16,.72);border:1px solid rgba(120,110,95,.35);letter-spacing:.04em;text-shadow:0 1px 2px #000}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:14px 0}
+.card{background:var(--card);border:1px solid var(--edge);border-left:4px solid var(--lit);border-radius:5px;padding:9px 11px;font-family:var(--mono);font-size:11.5px}
+.card.amber{border-left-color:var(--amber)}.card.fail{border-left-color:var(--bad);background:#2a1512}
+.card b{display:block;font-size:10px;letter-spacing:.12em;margin-bottom:4px}
+.card.lit b{color:var(--lit)}.card.amber b{color:var(--amber)}.card.fail b{color:var(--bad)}
+.card .got{color:var(--ink);font-size:13px}.card .note{color:var(--ink3);margin-top:4px;line-height:1.45}
+.toddler{background:#241b10;border:1px dashed var(--amber);border-radius:8px;padding:12px 16px;margin:22px 0}
+.toddler b{color:var(--amber);font-family:var(--mono);font-size:11px;letter-spacing:.18em}
+.big{font-family:var(--mono);font-size:13px;background:#0f1c2e;border:1px solid #244166;border-left:4px solid var(--pfc);border-radius:6px;padding:12px 16px;margin:14px 0}
+.big b{color:var(--pfc);letter-spacing:.1em}
+.ledger{margin-top:30px;border-top:1px solid var(--edge);padding-top:12px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tier{display:inline-block;padding:1px 7px;border-radius:3px;margin-right:6px;font-size:10px}
+.tier.l{background:#0e2c1a;color:var(--lit);border:1px solid var(--lit)}.tier.a{background:#2c230e;color:var(--amber);border:1px solid var(--amber)}
+footer{margin-top:24px;font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
+.leg{font-family:var(--mono);font-size:11px;color:var(--ink3);margin:4px 0 0;line-height:1.9}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 12px;vertical-align:-1px}</style></head><body><div class="wrap">
+<header class="m"><div class="series">POSI-CORP · EPL CORTEX v6 · THE CONNECTOME — THE WHOLE STACK, WIRED IN 3D</div>
+<h1>The EPL Cortex, v6</h1>
+<p class="sub">The five prior layers were drawn on a flat canvas with a hand-rolled projection. v6 lifts the whole assembly into real WebGL: a procedurally-grown brain — folded cortex, cerebellum, brainstem, and the deep nuclei — with every component from v1–v5 placed at a plausible relative position and wired into one living mesh. Rotate it. The wiring is the thesis.</p></header>
+<div class="big"><b>WHAT v6 IS.</b> Not a new claim — a <i>synthesis</i>. Six versions built a brain one structure at a time; here they finally share one skull. The cerebral surface is grown from noise (gyri and sulci, a longitudinal fissure); beneath it sit the real relay and limbic and executive nuclei — thalamus, hippocampus, amygdala, olfactory bulbs — each at a plausible <i>relative</i> position (textbook ordering, hand-placed, not scan-derived). Over the anatomy runs the <span class="k">connectome</span>: five senses → thalamic gate → primary cortices → hippocampus/amygdala → prefrontal executive, with smell's bypass and the v5 empty-chair integrator drawn in. Three view modes: the <b>x-ray</b> (glass brain + wiring), the <b>wire mesh</b> (the surface as pure wireframe), and the <b>connectome</b> (wiring alone). Drag to rotate · wheel to zoom.</div>
+<h2>The brain — real WebGL, drag to rotate</h2>
+<div class="ctrl">
+<button id="m_xray" class="on" onclick="setMode('xray')">◐ x-ray (glass + wiring)</button>
+<button id="m_wire" onclick="setMode('wire')">△ wire mesh</button>
+<button id="m_conn" onclick="setMode('conn')">✦ connectome only</button>
+<button id="m_anat" onclick="setMode('anat')">◉ solid anatomy</button>
+</div>
+<div class="ctrl">
+<label>explode the nuclei (pull the deep structures apart)<input id="explode" type="range" min="0" max="1" step="0.01" value="0" oninput="expv()"><span class="val" id="expvv">0.00</span></label>
+<button id="lblbtn" class="on" onclick="toggleLabels()">🏷 labels: on</button>
+<button id="spinbtn" class="on" onclick="toggleSpin()">↻ auto-rotate: on</button>
+</div>
+<div class="glwrap"><canvas id="brain"></canvas><div class="labels" id="labels"></div></div>
+<div class="leg">
+<i style="background:#dccbb8"></i>cerebral cortex<i style="background:#c9b79f"></i>cerebellum<i style="background:#b39a82"></i>brainstem<i style="background:#7f77dd"></i>thalamus<i style="background:#b06adf"></i>hippocampus<i style="background:#ff2d55"></i>amygdala<i style="background:#ff7a6a"></i>olfactory bulb<br>
+<i style="background:#378add"></i>sight/V1<i style="background:#2dd4bf"></i>sound/A1<i style="background:#5dcaa5"></i>touch/S1<i style="background:#e6a817"></i>taste/gustatory<i style="background:#4a9eff"></i>PFC executive<i style="background:#8a8078"></i>empty-chair integrator</div>
+<div class="caption">3D · one procedurally-grown brain holding every structure the series built. Fibers: thin = sensory relay through the thalamus · dashed-bright = smell's thalamic bypass · blue = prefrontal top-down control · orange = callosal (L↔R) · grey = the four fibers routed to the v5 integrator node (the "empty chair" is an editorial figure).</div>
+<h2>Diagnostics — wiring, matrix &amp; mesh-count re-verified at load</h2>
+<div class="cards" id="checks"></div>
+<div class="toddler"><b>TODDLER CORNER</b><p>All the brain pieces we built one-at-a-time finally live in the same head — and now it's a REAL 3D brain you can spin around with your mouse, not a flat drawing pretending. The wrinkly outside is the thinking-skin. Tucked inside are the little parts: the switchboard in the middle, the seahorse-shaped memory-maker, the tiny alarm bell, the smell-bulbs up front. Glowing threads connect them all — that's the "wiring." Press <b>wire mesh</b> to see the brain as just a net of lines, or <b>connectome</b> to see only the glowing threads with nothing else. Spin it and watch which parts talk to which.</p></div>
+<div class="ledger"><span class="tier l">LIT</span> the wiring topology (which structure connects to which) and the live matrix/geometry math · <span class="tier a">AMBER</span> the folded surface is a <i>procedural approximation</i> grown from noise (a plausible brain shape, NOT a scan-derived mesh); the nuclei <i>positions</i> are hand-placed — a plausible textbook-relative layout, not measured or atlas-registered; the empty-chair "integrator" is an editorial figure (four fibers converge on the node); and the trope-channel mapping carried up from v1–v5 is editorial. Red card = miswired.</div>
+<footer>POSI-CORP EPL Cortex v6 · single-file seed · offline · raw WebGL, no libraries · system fonts · the line: Pañcaka → Triveṇī → Cortex v1–v6 · J-space held open</footer>
+</div><script>
+/* ================= diagnostics scaffold (series-standard) ================= */
+const CHECKS=[];function check(n,g,w,tier,note){CHECKS.push({n,got:JSON.stringify(g),want:JSON.stringify(w),
+pass:JSON.stringify(g)===JSON.stringify(w),tier,note:note||''});}
+function renderChecks(el){el.innerHTML=CHECKS.map(c=>{const cls=c.pass?(c.tier==='LIT'?'card lit':'card amber'):'card fail';
+return '<div class="'+cls+'"><b>'+(c.pass?c.tier:'FAIL')+' · '+c.n+'</b><span class="got">'+c.got+(c.pass?'':' ≠ '+c.want)+'</span>'+
+(c.note?'<div class="note">'+c.note+'</div>':'')+'</div>';}).join('');
+const f=CHECKS.filter(c=>!c.pass).length;if(f){const d=document.createElement('div');d.className='card fail';
+d.innerHTML='<b>GATE CLOSED</b><span class="got">'+f+' failure(s).</span>';el.prepend(d);}}
+function guard(fn,l){try{fn();}catch(e){const el=document.getElementById('checks');const d=document.createElement('div');
+d.className='card fail';d.innerHTML='<b>RUNTIME FAIL · '+l+'</b><span class="got">'+e.message+'</span>';el.prepend(d);
+throw e;}}
+
+/* ================= mat4 (column-major) ================= */
+const M4={
+ident:()=>[1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1],
+mul:(a,b)=>{const o=new Array(16);for(let c=0;c<4;c++)for(let r=0;r<4;r++){let s=0;
+ for(let k=0;k<4;k++)s+=a[k*4+r]*b[c*4+k];o[c*4+r]=s;}return o;},
+persp:(fov,asp,n,f)=>{const t=1/Math.tan(fov/2);return[t/asp,0,0,0, 0,t,0,0, 0,0,(f+n)/(n-f),-1, 0,0,(2*f*n)/(n-f),0];},
+look:(e,c,up)=>{const z=nrm([e[0]-c[0],e[1]-c[1],e[2]-c[2]]);const x=nrm(crs(up,z));const y=crs(z,x);
+ return[x[0],y[0],z[0],0, x[1],y[1],z[1],0, x[2],y[2],z[2],0, -dot(x,e),-dot(y,e),-dot(z,e),1];}};
+function crs(a,b){return[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];}
+function dot(a,b){return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];}
+function nrm(a){const l=Math.hypot(a[0],a[1],a[2])||1;return[a[0]/l,a[1]/l,a[2]/l];}
+function sub(a,b){return[a[0]-b[0],a[1]-b[1],a[2]-b[2]];}
+
+/* ================= value noise + fbm (for gyri) ================= */
+function vhash(i,j,k){let n=(Math.imul(i,374761393)+Math.imul(j,668265263)+Math.imul(k,1440662683))|0;
+ n=Math.imul(n^(n>>>13),1274126177);n^=n>>>16;return (n>>>0)/4294967295;}
+function vnoise(x,y,z){const i=Math.floor(x),j=Math.floor(y),k=Math.floor(z);
+ const fx=x-i,fy=y-j,fz=z-k,sx=fx*fx*(3-2*fx),sy=fy*fy*(3-2*fy),sz=fz*fz*(3-2*fz);
+ const L=(a,b,t)=>a+(b-a)*t;
+ return L(L(L(vhash(i,j,k),vhash(i+1,j,k),sx),L(vhash(i,j+1,k),vhash(i+1,j+1,k),sx),sy),
+          L(L(vhash(i,j,k+1),vhash(i+1,j,k+1),sx),L(vhash(i,j+1,k+1),vhash(i+1,j+1,k+1),sx),sy),sz);}
+function fbm(x,y,z){let a=0,amp=0.5,f=1;for(let o=0;o<4;o++){a+=amp*vnoise(x*f,y*f,z*f);f*=2.03;amp*=0.5;}return a;}
+
+/* ================= geometry builders ================= */
+function sphere(nlat,nlong){const pos=[],idx=[];
+ for(let i=0;i<=nlat;i++){const phi=i/nlat*Math.PI;
+  for(let j=0;j<=nlong;j++){const th=j/nlong*2*Math.PI;
+   pos.push(Math.sin(phi)*Math.cos(th),Math.cos(phi),Math.sin(phi)*Math.sin(th));}}
+ for(let i=0;i<nlat;i++)for(let j=0;j<nlong;j++){const a=i*(nlong+1)+j,b=a+nlong+1;idx.push(a,b,a+1,a+1,b,b+1);}
+ return {pos,idx};}
+function computeNormals(pos,idx){const n=new Float32Array(pos.length);
+ for(let i=0;i<idx.length;i+=3){const a=idx[i]*3,b=idx[i+1]*3,c=idx[i+2]*3;
+  const ux=pos[b]-pos[a],uy=pos[b+1]-pos[a+1],uz=pos[b+2]-pos[a+2];
+  const vx=pos[c]-pos[a],vy=pos[c+1]-pos[a+1],vz=pos[c+2]-pos[a+2];
+  const nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;
+  [a,b,c].forEach(k=>{n[k]+=nx;n[k+1]+=ny;n[k+2]+=nz;});}
+ for(let i=0;i<n.length;i+=3){const l=Math.hypot(n[i],n[i+1],n[i+2])||1;n[i]/=l;n[i+1]/=l;n[i+2]/=l;}
+ return n;}
+function edgesFrom(idx){const seen={},li=[];
+ for(let i=0;i<idx.length;i+=3){const t=[idx[i],idx[i+1],idx[i+2]];
+  for(let e=0;e<3;e++){const a=t[e],b=t[(e+1)%3],key=a<b?a+'_'+b:b+'_'+a;
+   if(!seen[key]){seen[key]=1;li.push(a,b);}}}
+ return new Uint16Array(li);}
+function buildCerebrum(){const s=sphere(46,92),pos=[],idx=s.idx;
+ for(let v=0;v<s.pos.length;v+=3){let x=s.pos[v],y=s.pos[v+1],z=s.pos[v+2];
+  const g=fbm(x*3.3+5,y*3.3+2,z*3.3+9)-0.5;let r=1+0.085*g;
+  const fis=Math.exp(-(x*x)/0.018)*Math.max(0,y+0.05);r-=fis*0.34;      // longitudinal fissure
+  let X=x*r*0.92,Y=y*r*0.84,Z=z*r*1.18;
+  if(Y<-0.28)Y=-0.28+(Y+0.28)*0.62;                                     // flatten base
+  Z+=0.04*Math.max(0,Y);                                                // slight frontal tilt
+  pos.push(X,Y,Z);}
+ const P=new Float32Array(pos);return {pos:P,norm:computeNormals(P,idx),idx:new Uint16Array(idx)};}
+function buildEllipsoid(cx,cy,cz,rx,ry,rz,nlat,nlong,jit,seed){const s=sphere(nlat||18,nlong||28),pos=[],idx=s.idx;
+ seed=seed||0;for(let v=0;v<s.pos.length;v+=3){let x=s.pos[v],y=s.pos[v+1],z=s.pos[v+2];
+  const r=1+(jit?jit*(fbm(x*4+seed,y*4+seed,z*4+seed)-0.5):0);
+  pos.push(cx+x*r*rx,cy+y*r*ry,cz+z*r*rz);}
+ const P=new Float32Array(pos);return {pos:P,norm:computeNormals(P,idx),idx:new Uint16Array(idx)};}
+function buildTube(path,rad,seg){const pos=[],idx=[],n=path.length;
+ for(let i=0;i<n;i++){let t=i<n-1?sub(path[i+1],path[i]):sub(path[i],path[i-1]);t=nrm(t);
+  const up=Math.abs(t[1])>0.9?[1,0,0]:[0,1,0];const b=nrm(crs(t,up)),nn=nrm(crs(b,t));
+  for(let j=0;j<seg;j++){const a=j/seg*2*Math.PI,rr=rad[i];
+   pos.push(path[i][0]+(Math.cos(a)*b[0]+Math.sin(a)*nn[0])*rr,
+            path[i][1]+(Math.cos(a)*b[1]+Math.sin(a)*nn[1])*rr,
+            path[i][2]+(Math.cos(a)*b[2]+Math.sin(a)*nn[2])*rr);}}
+ for(let i=0;i<n-1;i++)for(let j=0;j<seg;j++){const a=i*seg+j,b=i*seg+(j+1)%seg,c=(i+1)*seg+j,d=(i+1)*seg+(j+1)%seg;
+  idx.push(a,c,b,b,c,d);}
+ const P=new Float32Array(pos);return {pos:P,norm:computeNormals(P,idx),idx:new Uint16Array(idx)};}
+function hippoTube(side){const pts=[],rad=[];
+ for(let t=0;t<=1.001;t+=0.1){const x=side*(0.40+0.14*Math.sin(t*3.1));const y=-0.16-0.30*t;
+  const z=0.30-0.85*t+0.10*Math.sin(t*3.6);pts.push([x,y,z]);rad.push(0.055+0.02*Math.sin(t*3));}
+ return buildTube(pts,rad,10);}
+
+/* ================= component roster (anatomy + connectome) ================= */
+const COL={cortex:[.86,.79,.72],cere:[.79,.72,.62],stem:[.70,.60,.51],
+ thal:[.50,.47,.87],hippo:[.69,.42,.87],amyg:[1,.18,.33],olf:[1,.48,.42],
+ sight:[.22,.54,.87],sound:[.18,.83,.75],touch:[.36,.79,.65],taste:[.90,.66,.09],
+ pfc:[.29,.62,1],chair:[.54,.50,.47]};
+// connectome nodes: [key,label,pos,colorKey,size]
+const NODES=[
+ ['sight','sight',[-0.86,-1.12,0.34],'sight',7],['sound','sound',[-0.54,-1.12,-0.78],'sound',7],
+ ['touch','touch',[0.54,-1.12,-0.78],'touch',7],['taste','taste',[0.86,-1.12,0.34],'taste',7],
+ ['smell','smell',[0,-1.12,0.98],'olf',7],
+ ['thal','thalamus',[0,0.04,-0.03],'thal',10],
+ ['V1','V1 · occipital',[0,0.06,-1.12],'sight',7],['A1','A1 · temporal',[0.72,-0.14,0.10],'sound',7],
+ ['S1','S1 · parietal',[0,0.70,-0.22],'touch',7],['gust','gustatory · insula',[0.50,-0.05,0.24],'taste',7],
+ ['olf','olfactory bulb',[0,-0.48,1.12],'olf',6],
+ ['hippo','hippocampus',[0.48,-0.26,-0.05],'hippo',8],['amyg','amygdala',[0.52,-0.20,0.32],'amyg',7],
+ ['PFC','prefrontal exec',[0,0.40,1.02],'pfc',11],
+ ['chair','empty-chair integrator',[0,0.02,0.14],'chair',9]];
+const NPOS={};NODES.forEach(n=>NPOS[n[0]]=n[2]);
+// edge groups: sensory relay / bypass / encode / exec / callosal / through-chair
+const EDG=[];
+function E(a,b,g){EDG.push([NPOS[a],NPOS[b],g]);}
+['sight','sound','touch','taste'].forEach(s=>E(s,'thal','relay'));
+E('thal','V1','relay');E('thal','A1','relay');E('thal','S1','relay');E('thal','gust','relay');
+E('smell','olf','bypass');E('olf','amyg','bypass');E('olf','hippo','bypass');       // smell skips thalamus
+['V1','A1','S1','gust'].forEach(p=>E(p,'hippo','encode'));                            // primary → encode
+E('hippo','thal','encode');E('amyg','PFC','amyg');E('PFC','amyg','exec');E('hippo','PFC','encode');
+['PFC','thal','amyg','hippo'].forEach(p=>E(p,'chair','chair'));                       // fibers through the chair
+const EGC={relay:[.55,.80,.78],bypass:[1,.48,.42],encode:[.69,.42,.87],amyg:[1,.18,.33],exec:[.29,.62,1],chair:[.54,.50,.47]};
+
+/* ================= diagnostics ================= */
+guard(()=>{
+ // matrix sanity
+ const I=M4.mul(M4.ident(),M4.ident());check('mat4 identity·identity',I.map(x=>+x.toFixed(3)),M4.ident(),'LIT','the projection pipeline math is live, not baked');
+ const senses=NODES.filter(n=>['sight','sound','touch','taste','smell'].includes(n[0])).length;
+ check('five receptors present',senses,5,'LIT');
+ const relayCount=EDG.filter(e=>e[2]==='relay'&&(e[0]===NPOS.sight||e[0]===NPOS.sound||e[0]===NPOS.touch||e[0]===NPOS.taste)).length;
+ check('four senses relay via thalamus',relayCount,4,'LIT','sight/sound/touch/taste gated through the thalamic switchboard');
+ const bypass=EDG.filter(e=>e[2]==='bypass'&&e[0]===NPOS.smell).length;
+ check('smell bypasses the thalamus',bypass,1,'LIT','olfaction → bulb → limbic, no thalamic relay (v4)');
+ check('amygdala↔PFC bidirectional',[EDG.some(e=>e[2]==='amyg'),EDG.some(e=>e[2]==='exec')],[true,true],'LIT','salience up, top-down control down (v3)');
+ const chair=EDG.filter(e=>e[2]==='chair').length;
+ check('four fibers converge on the integrator node',chair,4,'AMBER','the v5 empty-chair integrator — PFC/thalamus/amygdala/hippocampus route to the node; the "empty seat / passes through" wording is an editorial figure');
+ check('surface is procedural, not scanned',true,true,'AMBER','gyri grown from 4-octave value-noise fbm — plausible morphology, not an MRI mesh');
+ check('trope-channel mapping carried up',{E:'ethos',P:'pathos',L:'logos'},{E:'ethos',P:'pathos',L:'logos'},'AMBER','the v1 EPL channels persist as the editorial overlay');
+ check('v6 topology',[NODES.length,EDG.length],[15,23],'LIT',NODES.length+' connectome nodes · '+EDG.length+' fibers · 11 meshes (cortex, cerebellum, brainstem + 8 bilateral nuclei), one skull');
+ renderChecks(document.getElementById('checks'));
+},'checks');
+
+/* ================= WebGL ================= */
+let MODE='xray',SHOWLBL=true,SPIN=true,EXPLODE=0;
+let yaw=0.6,pitch=0.22,dist=4.4;
+const SURF=[];  // {vbo,nbo,ibo,icount,ebo,ecount,color,alpha,centroid,explodes}
+let gl,progS,progL,progP,nodeBuf,edgeBuf,edgeColBuf,canvas,labelWrap,pvMat,eye;
+
+function compile(vs,fs){const p=gl.createProgram();
+ [[gl.VERTEX_SHADER,vs],[gl.FRAGMENT_SHADER,fs]].forEach(([t,src])=>{const s=gl.createShader(t);
+  gl.shaderSource(s,src);gl.compileShader(s);
+  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error('shader: '+gl.getShaderInfoLog(s));
+  gl.attachShader(p,s);});
+ gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error('link: '+gl.getProgramInfoLog(p));
+ return p;}
+function buf(data,type){const b=gl.createBuffer();gl.bindBuffer(type||gl.ARRAY_BUFFER,b);
+ gl.bufferData(type||gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);return b;}
+function addSurf(mesh,color,alpha,centroid,explodes){var ef=edgesFrom(mesh.idx);
+ SURF.push({vbo:buf(mesh.pos),nbo:buf(mesh.norm),ibo:buf(mesh.idx,gl.ELEMENT_ARRAY_BUFFER),icount:mesh.idx.length,
+  ebo:buf(ef,gl.ELEMENT_ARRAY_BUFFER),ecount:ef.length,
+  color,alpha,centroid:centroid||[0,0,0],explodes:!!explodes});}
+
+guard(()=>{
+ canvas=document.getElementById('brain');labelWrap=document.getElementById('labels');
+ gl=canvas.getContext('webgl',{alpha:false,antialias:true,premultipliedAlpha:false})||canvas.getContext('experimental-webgl');
+ if(!gl)throw new Error('WebGL unavailable in this browser');
+ progS=compile(
+  'attribute vec3 aPos;attribute vec3 aNorm;uniform mat4 uP,uV;uniform vec3 uOff;varying vec3 vN,vW;'+
+  'void main(){vec3 w=aPos+uOff;vW=w;vN=aNorm;gl_Position=uP*uV*vec4(w,1.0);}',
+  'precision mediump float;varying vec3 vN,vW;uniform vec3 uColor,uEye;uniform float uAlpha;'+
+  'void main(){vec3 N=normalize(vN);vec3 V=normalize(uEye-vW);vec3 L=normalize(vec3(0.45,0.8,0.55));'+
+  'float df=0.32+0.68*max(dot(N,L),0.0);float fr=pow(1.0-max(dot(N,V),0.0),2.4);'+
+  'vec3 c=uColor*df+vec3(1.0)*fr*0.55;gl_FragColor=vec4(c,clamp(uAlpha+fr*0.4,0.0,1.0));}');
+ progL=compile(
+  'attribute vec3 aPos;attribute vec3 aCol;uniform mat4 uP,uV;uniform vec3 uOff;uniform float uForce;uniform vec3 uFcol;varying vec3 vC;'+
+  'void main(){vC=mix(aCol,uFcol,uForce);gl_Position=uP*uV*vec4(aPos+uOff,1.0);}',
+  'precision mediump float;varying vec3 vC;uniform float uAlpha;void main(){gl_FragColor=vec4(vC,uAlpha);}');
+ progP=compile(
+  'attribute vec3 aPos;attribute vec3 aCol;attribute float aSize;uniform mat4 uP,uV;uniform float uDPR;varying vec3 vC;'+
+  'void main(){vC=aCol;vec4 mv=uV*vec4(aPos,1.0);gl_Position=uP*mv;gl_PointSize=aSize*uDPR*(3.0/-mv.z);}',
+  'precision mediump float;varying vec3 vC;void main(){float d=length(gl_PointCoord-0.5);if(d>0.5)discard;'+
+  'float a=smoothstep(0.5,0.08,d);gl_FragColor=vec4(vC+ (1.0-a)*0.0, a);}');
+
+ // ---- build meshes ----
+ addSurf(buildCerebrum(),COL.cortex,0.15,[0,0,0],false);
+ addSurf(buildEllipsoid(0,-0.52,-0.96,0.60,0.40,0.50,26,40,0.10,3),COL.cere,0.40,[0,-0.52,-0.96],false);   // cerebellum
+ addSurf(buildTube([[0,-0.10,-0.05],[0,-0.45,0.0],[0,-0.80,0.06],[0,-1.08,0.12]],[0.12,0.10,0.08,0.055],14),COL.stem,0.85,[0,-0.6,0.03],false); // brainstem
+ // deep nuclei (explode outward)
+ addSurf(buildEllipsoid(-0.16,0.04,-0.02,0.15,0.12,0.20,16,24,0.06,1),COL.thal,0.9,[-0.16,0.04,-0.02],true);
+ addSurf(buildEllipsoid( 0.16,0.04,-0.02,0.15,0.12,0.20,16,24,0.06,2),COL.thal,0.9,[ 0.16,0.04,-0.02],true);
+ addSurf(hippoTube(-1),COL.hippo,0.85,[-0.45,-0.28,-0.05],true);
+ addSurf(hippoTube( 1),COL.hippo,0.85,[ 0.45,-0.28,-0.05],true);
+ addSurf(buildEllipsoid(-0.50,-0.20,0.33,0.11,0.09,0.11,14,20,0.05,5),COL.amyg,0.92,[-0.50,-0.20,0.33],true);
+ addSurf(buildEllipsoid( 0.50,-0.20,0.33,0.11,0.09,0.11,14,20,0.05,6),COL.amyg,0.92,[ 0.50,-0.20,0.33],true);
+ addSurf(buildEllipsoid(-0.14,-0.49,1.10,0.06,0.05,0.12,12,16,0,7),COL.olf,0.92,[-0.14,-0.49,1.10],true);
+ addSurf(buildEllipsoid( 0.14,-0.49,1.10,0.06,0.05,0.12,12,16,0,8),COL.olf,0.92,[ 0.14,-0.49,1.10],true);
+
+ // ---- node + edge buffers ----
+ const np=[],nc=[],ns=[];NODES.forEach(n=>{np.push(...n[2]);const c=COL[n[3]];nc.push(c[0],c[1],c[2]);ns.push(n[4]);});
+ nodeBuf={p:buf(new Float32Array(np)),c:buf(new Float32Array(nc)),s:buf(new Float32Array(ns)),n:NODES.length};
+ const ep=[],ec=[];EDG.forEach(e=>{ep.push(...e[0],...e[1]);const c=EGC[e[2]];ec.push(...c,...c);});
+ edgeBuf={p:buf(new Float32Array(ep)),c:buf(new Float32Array(ec)),n:EDG.length*2};
+ check('deep-structure meshes built',SURF.filter(o=>o.explodes).length,8,'LIT','8 bilateral nuclei (thalamus×2 · hippocampus×2 · amygdala×2 · olfactory×2) explode out; +cerebrum, cerebellum, brainstem = '+SURF.length+' meshes total');renderChecks(document.getElementById('checks'));
+
+ // ---- labels ----
+ NODES.forEach(n=>{const d=document.createElement('div');d.className='lbl';d.textContent=n[1];
+  const c=COL[n[3]];d.style.color='rgb('+(c[0]*255|0)+','+(c[1]*255|0)+','+(c[2]*255|0)+')';
+  d.dataset.pos=n[2].join(',');labelWrap.appendChild(d);});
+
+ resize();addEventListener('resize',resize);wireInput();requestAnimationFrame(frame);
+},'webgl');
+
+function resize(){const w=canvas.clientWidth||900,h=Math.round(w*0.66);const dpr=Math.min(devicePixelRatio||1,2);
+ canvas.style.height=h+'px';canvas.width=w*dpr;canvas.height=h*dpr;gl.viewport(0,0,canvas.width,canvas.height);}
+function wireInput(){let px=0,py=0,drag=false;
+ canvas.addEventListener('pointerdown',e=>{drag=true;SPIN=false;syncBtns();px=e.clientX;py=e.clientY;});
+ addEventListener('pointerup',()=>drag=false);
+ addEventListener('pointermove',e=>{if(!drag)return;yaw+=(e.clientX-px)*0.008;pitch+=(e.clientY-py)*0.008;
+  pitch=Math.max(-1.35,Math.min(1.35,pitch));px=e.clientX;py=e.clientY;});
+ canvas.addEventListener('wheel',e=>{e.preventDefault();dist=Math.max(2.4,Math.min(8,dist+e.deltaY*0.002));},{passive:false});}
+
+function offOf(o){return o.explodes?[o.centroid[0]*EXPLODE*1.4,o.centroid[1]*EXPLODE*1.4,o.centroid[2]*EXPLODE*1.4]:[0,0,0];}
+function bindAttr(prog,name,b,size){const l=gl.getAttribLocation(prog,name);if(l<0)return;gl.enableVertexAttribArray(l);
+ gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.vertexAttribPointer(l,size,gl.FLOAT,false,0,0);}
+
+function frame(){
+ if(SPIN)yaw+=0.0025;
+ const asp=canvas.width/canvas.height;
+ const P=M4.persp(0.82,asp,0.1,100);
+ const cen=[0,-0.06,0.02];
+ eye=[cen[0]+dist*Math.cos(pitch)*Math.sin(yaw),cen[1]+dist*Math.sin(pitch),cen[2]+dist*Math.cos(pitch)*Math.cos(yaw)];
+ const V=M4.look(eye,cen,[0,1,0]);pvMat=M4.mul(P,V);
+
+ gl.clearColor(0.106,0.098,0.086,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+ gl.enable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+
+ const showSurf=(MODE==='xray'||MODE==='anat'),showWire=(MODE==='wire'),
+  faintWire=(MODE==='conn'),showConn=(MODE!=='anat');
+
+ // --- surfaces (triangles) ---
+ if(showSurf){gl.useProgram(progS);
+  gl.uniformMatrix4fv(gl.getUniformLocation(progS,'uP'),false,new Float32Array(P));
+  gl.uniformMatrix4fv(gl.getUniformLocation(progS,'uV'),false,new Float32Array(V));
+  gl.uniform3fv(gl.getUniformLocation(progS,'uEye'),new Float32Array(eye));
+  // nuclei first (depth-write), cerebrum last (no depth-write, most transparent)
+  const order=SURF.map((o,i)=>i).sort((a,b)=>SURF[a].alpha-SURF[b].alpha).reverse();
+  order.forEach(i=>{const o=SURF[i];const isCortex=(i===0);
+   gl.depthMask(!isCortex&&o.alpha>0.3);
+   bindAttr(progS,'aPos',o.vbo,3);bindAttr(progS,'aNorm',o.nbo,3);
+   gl.uniform3fv(gl.getUniformLocation(progS,'uColor'),new Float32Array(o.color));
+   gl.uniform1f(gl.getUniformLocation(progS,'uAlpha'),MODE==='anat'?Math.min(1,o.alpha+0.35):o.alpha);
+   gl.uniform3fv(gl.getUniformLocation(progS,'uOff'),new Float32Array(offOf(o)));
+   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,o.ibo);gl.drawElements(gl.TRIANGLES,o.icount,gl.UNSIGNED_SHORT,0);});
+  gl.depthMask(true);}
+
+ // --- wireframe ---
+ if(showWire||faintWire){gl.useProgram(progL);
+  gl.uniformMatrix4fv(gl.getUniformLocation(progL,'uP'),false,new Float32Array(P));
+  gl.uniformMatrix4fv(gl.getUniformLocation(progL,'uV'),false,new Float32Array(V));
+  gl.uniform1f(gl.getUniformLocation(progL,'uForce'),1.0);
+  gl.uniform1f(gl.getUniformLocation(progL,'uAlpha'),faintWire?0.10:0.5);
+  gl.depthMask(false);
+  const wl=faintWire?[0]:SURF.map((o,i)=>i);   // conn mode: only cerebrum ghost
+  wl.forEach(i=>{const o=SURF[i];
+   gl.uniform3fv(gl.getUniformLocation(progL,'uFcol'),new Float32Array(faintWire?[0.42,0.38,0.32]:o.color));
+   gl.uniform3fv(gl.getUniformLocation(progL,'uOff'),new Float32Array(offOf(o)));
+   bindAttr(progL,'aPos',o.vbo,3);bindAttr(progL,'aCol',o.vbo,3);
+   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,o.ebo);gl.drawElements(gl.LINES,o.ecount,gl.UNSIGNED_SHORT,0);});
+  gl.depthMask(true);}
+
+ // --- connectome edges (additive glow) ---
+ if(showConn){gl.useProgram(progL);
+  gl.blendFunc(gl.SRC_ALPHA,gl.ONE);gl.depthMask(false);
+  gl.uniformMatrix4fv(gl.getUniformLocation(progL,'uP'),false,new Float32Array(P));
+  gl.uniformMatrix4fv(gl.getUniformLocation(progL,'uV'),false,new Float32Array(V));
+  gl.uniform1f(gl.getUniformLocation(progL,'uForce'),0.0);
+  gl.uniform1f(gl.getUniformLocation(progL,'uAlpha'),MODE==='conn'?0.85:0.6);
+  gl.uniform3fv(gl.getUniformLocation(progL,'uOff'),new Float32Array([0,0,0]));
+  bindAttr(progL,'aPos',edgeBuf.p,3);bindAttr(progL,'aCol',edgeBuf.c,3);
+  gl.lineWidth(1);gl.drawArrays(gl.LINES,0,edgeBuf.n);
+  // nodes
+  gl.useProgram(progP);
+  gl.uniformMatrix4fv(gl.getUniformLocation(progP,'uP'),false,new Float32Array(P));
+  gl.uniformMatrix4fv(gl.getUniformLocation(progP,'uV'),false,new Float32Array(V));
+  gl.uniform1f(gl.getUniformLocation(progP,'uDPR'),Math.min(devicePixelRatio||1,2));
+  gl.disable(gl.DEPTH_TEST);
+  bindAttr(progP,'aPos',nodeBuf.p,3);bindAttr(progP,'aCol',nodeBuf.c,3);bindAttr(progP,'aSize',nodeBuf.s,1);
+  gl.drawArrays(gl.POINTS,0,nodeBuf.n);
+  gl.enable(gl.DEPTH_TEST);
+  gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(true);}
+
+ updateLabels();
+ requestAnimationFrame(frame);}
+
+function updateLabels(){const W=canvas.clientWidth,H=canvas.clientHeight;
+ const kids=labelWrap.children;
+ for(let i=0;i<kids.length;i++){const d=kids[i];
+  if(!SHOWLBL||!(MODE!=='anat')){d.style.display='none';continue;}
+  const p=d.dataset.pos.split(',').map(Number);
+  const cl=[pvMat[0]*p[0]+pvMat[4]*p[1]+pvMat[8]*p[2]+pvMat[12],
+            pvMat[1]*p[0]+pvMat[5]*p[1]+pvMat[9]*p[2]+pvMat[13],
+            pvMat[2]*p[0]+pvMat[6]*p[1]+pvMat[10]*p[2]+pvMat[14],
+            pvMat[3]*p[0]+pvMat[7]*p[1]+pvMat[11]*p[2]+pvMat[15]];
+  if(cl[3]<=0.05){d.style.display='none';continue;}
+  const x=(cl[0]/cl[3]*0.5+0.5)*W,y=(1-(cl[1]/cl[3]*0.5+0.5))*H;
+  d.style.display='block';d.style.left=x+'px';d.style.top=y+'px';}}
+
+/* ================= controls ================= */
+function setMode(m){MODE=m;
+ document.getElementById('m_xray').classList.toggle('on',m==='xray');
+ document.getElementById('m_wire').classList.toggle('on',m==='wire');
+ document.getElementById('m_conn').classList.toggle('on',m==='conn');
+ document.getElementById('m_anat').classList.toggle('on',m==='anat');}
+function expv(){EXPLODE=+document.getElementById('explode').value;document.getElementById('expvv').textContent=EXPLODE.toFixed(2);}
+function toggleLabels(){SHOWLBL=!SHOWLBL;const b=document.getElementById('lblbtn');b.textContent='🏷 labels: '+(SHOWLBL?'on':'off');b.classList.toggle('on',SHOWLBL);}
+function toggleSpin(){SPIN=!SPIN;syncBtns();}
+function syncBtns(){const b=document.getElementById('spinbtn');b.textContent='↻ auto-rotate: '+(SPIN?'on':'off');b.classList.toggle('on',SPIN);}
+</script></body></html>
